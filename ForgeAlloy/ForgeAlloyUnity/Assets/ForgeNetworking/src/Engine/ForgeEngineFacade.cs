@@ -49,6 +49,7 @@ namespace Forge.Networking.Unity
 			var factory = AbstractFactory.Get<INetworkTypeFactory>();
 			NewClientMessageBuffer = factory.GetNew<IMessageRepository>();
 			EntityRepository = factory.GetNew<IEntityRepository>();
+			_prefabManager.LoadAllAssetReferences();
 		}
 
 		private void ServerStarted()

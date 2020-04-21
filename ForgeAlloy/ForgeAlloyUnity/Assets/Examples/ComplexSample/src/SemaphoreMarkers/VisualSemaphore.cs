@@ -8,7 +8,7 @@ namespace Puzzle.SemaphoreMarkers
 	{
 		[SerializeField] private Transform _camTransform = null;
 		[SerializeField] private GameObject _standardMarkerPrefab = null;
-		[SerializeField] private int _standardMarkerId = 4;
+		[SerializeField] private string _standardMarkerAddress = "";
 		private IVisualSemaphoreMarker _standardMarker = null;
 		private ComplexSampleNetwork _puzzle;
 
@@ -22,16 +22,16 @@ namespace Puzzle.SemaphoreMarkers
 		public void Update()
 		{
 			if (Input.GetKeyDown(KeyCode.F))
-				SendStandardMarker(_standardMarker, _standardMarkerId);
+				SendStandardMarker(_standardMarker, _standardMarkerAddress);
 		}
 
-		private void SendStandardMarker(IVisualSemaphoreMarker marker, int netPrefabId)
+		private void SendStandardMarker(IVisualSemaphoreMarker marker, string netPrefabAddress)
 		{
 			if (marker == null) return;
 			if (Physics.Raycast(_camTransform.position, _camTransform.forward, out var hit))
 			{
 				GameObject obj = marker.SetMarker(hit);
-				_puzzle.SpawnRemotePrefab(netPrefabId, obj.transform.position,
+				_puzzle.SpawnRemotePrefab(netPrefabAddress, obj.transform.position,
 					obj.transform.eulerAngles, obj.transform.localScale);
 			}
 		}

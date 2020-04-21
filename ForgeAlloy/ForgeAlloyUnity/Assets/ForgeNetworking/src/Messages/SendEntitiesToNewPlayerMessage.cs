@@ -10,7 +10,7 @@ namespace Forge.Networking.Unity.Messages
 	{
 		public int EntityCount { get; set; }
 		public int[] Ids { get; set; }
-		public int[] PrefabIds { get; set; }
+		public string[] PrefabAddresses { get; set; }
 		public Vector3[] Positions { get; set; }
 		public Quaternion[] Rotations { get; set; }
 		public Vector3[] Scales { get; set; }
@@ -22,7 +22,7 @@ namespace Forge.Networking.Unity.Messages
 		{
 			EntityCount = ForgeSerializer.Instance.Deserialize<int>(buffer);
 			Ids = new int[EntityCount];
-			PrefabIds = new int[EntityCount];
+			PrefabAddresses = new string[EntityCount];
 			Positions = new Vector3[EntityCount];
 			Rotations = new Quaternion[EntityCount];
 			Scales = new Vector3[EntityCount];
@@ -30,7 +30,7 @@ namespace Forge.Networking.Unity.Messages
 			for (int i = 0; i < EntityCount; i++)
 			{
 				Ids[i] = ForgeSerializer.Instance.Deserialize<int>(buffer);
-				PrefabIds[i] = ForgeSerializer.Instance.Deserialize<int>(buffer);
+				PrefabAddresses[i] = ForgeSerializer.Instance.Deserialize<string>(buffer);
 				Positions[i] = ForgeSerializer.Instance.Deserialize<Vector3>(buffer);
 				Rotations[i] = ForgeSerializer.Instance.Deserialize<Quaternion>(buffer);
 				Scales[i] = ForgeSerializer.Instance.Deserialize<Vector3>(buffer);
@@ -44,7 +44,7 @@ namespace Forge.Networking.Unity.Messages
 			for (int i = 0; i < EntityCount; i++)
 			{
 				ForgeSerializer.Instance.Serialize(Ids[i], buffer);
-				ForgeSerializer.Instance.Serialize(PrefabIds[i], buffer);
+				ForgeSerializer.Instance.Serialize(PrefabAddresses[i], buffer);
 				ForgeSerializer.Instance.Serialize(Positions[i], buffer);
 				ForgeSerializer.Instance.Serialize(Rotations[i], buffer);
 				ForgeSerializer.Instance.Serialize(Scales[i], buffer);

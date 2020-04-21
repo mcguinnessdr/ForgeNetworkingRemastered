@@ -18,7 +18,7 @@ namespace Puzzle.Networking.Messages.Interpreters
 			var m = (CreatePlayerMessage)message;
 			bool isMe = netMediator.SocketFacade.NetPlayerId.Equals(m.OwningPlayer);
 			if (!isMe)
-				m.PrefabId = m.ProxyPrefabId;
+				m.PrefabAddress = m.ProxyPrefabAddress;
 			IEngineFacade engine = (IEngineFacade)netMediator.EngineProxy;
 			var e = EntitySpawner.SpawnEntityFromMessage(engine, m);
 			onPlayerCreated?.Invoke(e, m.OwningPlayer);

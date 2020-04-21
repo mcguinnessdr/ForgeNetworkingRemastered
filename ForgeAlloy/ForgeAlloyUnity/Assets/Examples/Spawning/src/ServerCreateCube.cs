@@ -1,12 +1,13 @@
-using Forge.Networking.Messaging;
+﻿using Forge.Networking.Messaging;
 using Forge.Networking.Unity;
 using Forge.Networking.Unity.Messages;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 public class ServerCreateCube : MonoBehaviour
 {
 	[SerializeField]
-	private int _prefabId = 0;
+	private AssetReference _prefab;
 
 	private int _runningId = 0;
 	private IEngineFacade _engine;
@@ -30,7 +31,7 @@ public class ServerCreateCube : MonoBehaviour
 	{
 		var msg = _msgPool.Get();
 		msg.Id = _runningId++;
-		msg.PrefabId = _prefabId;
+		msg.PrefabAddress = _prefab.AssetGUID;
 		msg.Position = new Vector3(Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f), Random.Range(-3.0f, 3.0f));
 		msg.Rotation = Quaternion.Euler(Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f));
 		msg.Scale = new Vector3(Random.Range(0.5f, 3.0f), Random.Range(0.5f, 3.0f), Random.Range(0.5f, 3.0f));

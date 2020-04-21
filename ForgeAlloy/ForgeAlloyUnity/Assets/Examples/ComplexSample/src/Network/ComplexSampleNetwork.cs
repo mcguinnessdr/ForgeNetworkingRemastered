@@ -24,8 +24,8 @@ namespace Puzzle.Network
 			}
 		}
 
-		[SerializeField] private int _playerPrefabId = 0;
-		[SerializeField] private int _playerProxyPrefabId = 0;
+		[SerializeField] private string _playerPrefabId = "";
+		[SerializeField] private string _playerProxyPrefabAddress = "";
 		private int _entityId = 0;
 
 		private IEngineFacade _engine = null;
@@ -46,7 +46,7 @@ namespace Puzzle.Network
 			{
 				CreatePlayerMessage msg = GetPlayerCreateMessage(_engine.NetworkMediator.SocketFacade.NetPlayerId, _entityId++);
 				MyPlayer = EntitySpawner.SpawnEntityFromMessage(_engine, msg);    // Spawn for ourselves locally
-				MyPlayer.PrefabId = _playerProxyPrefabId;  // This is a hack for when we send out all entities
+				MyPlayer.PrefabAddress = _playerProxyPrefabAddress;  // This is a hack for when we send out all entities
 				DontDestroyOnLoad(MyPlayer.OwnerGameObject);
 				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 			}
@@ -105,7 +105,7 @@ namespace Puzzle.Network
 
 			// Spawn for ourselves locally
 			CreatePlayerMessage localMsg = GetPlayerCreateMessage(player.Id, entityId);
-			localMsg.PrefabId = _playerProxyPrefabId;
+			localMsg.PrefabAddress = _playerProxyPrefabAddress;
 			EntitySpawner.SpawnEntityFromMessage(_engine, localMsg);
 		}
 
@@ -114,20 +114,20 @@ namespace Puzzle.Network
 			return new CreatePlayerMessage()
 			{
 				Id = entityId,
-				PrefabId = _playerPrefabId,
+				PrefabAddress = _playerPrefabId,
 				Position = Vector3.zero,
 				Rotation = Quaternion.Euler(new Vector3(0.0f, 103.0f, 0.0f)),
 				Scale = Vector3.one,
-				ProxyPrefabId = _playerProxyPrefabId,
+				ProxyPrefabAddress = _playerProxyPrefabAddress,
 				OwningPlayer = playerId
 			};
 		}
 
-		public void SpawnPrefab(int prefabId, Vector3 pos, Vector3 rot, Vector3 scale)
+		public void SpawnPrefab(string prefabAddress, Vector3 pos, Vector3 rot, Vector3 scale)
 		{
 			var msg = _msgPool.Get();
 			msg.Id = _entityId++;
-			msg.PrefabId = prefabId;
+			msg.PrefabAddress = prefabAddress;
 			msg.Position = pos;
 			msg.Rotation = Quaternion.Euler(rot);
 			msg.Scale = scale;
@@ -135,11 +135,11 @@ namespace Puzzle.Network
 			_engine.NetworkMediator.SendReliableMessage(msg);
 		}
 
-		public void SpawnRemotePrefab(int prefabId, Vector3 pos, Vector3 rot, Vector3 scale)
+		public void SpawnRemotePrefab(string prefabAddress, Vector3 pos, Vector3 rot, Vector3 scale)
 		{
 			var msg = _msgPool.Get();
 			msg.Id = _entityId++;
-			msg.PrefabId = prefabId;
+			msg.PrefabAddress = prefabAddress;
 			msg.Position = pos;
 			msg.Rotation = Quaternion.Euler(rot);
 			msg.Scale = scale;

@@ -18,7 +18,7 @@ namespace Forge.Networking.Unity.Messages.Interpreters
 			var msg = new SendEntitiesToNewPlayerMessage();
 			msg.EntityCount = count;
 			msg.Ids = new int[count];
-			msg.PrefabIds = new int[count];
+			msg.PrefabAddresses = new string[count];
 			msg.Positions = new Vector3[count];
 			msg.Rotations = new Quaternion[count];
 			msg.Scales = new Vector3[count];
@@ -31,7 +31,7 @@ namespace Forge.Networking.Unity.Messages.Interpreters
 				{
 					var t = itr.Current.OwnerGameObject.transform;
 					msg.Ids[i] = itr.Current.Id;
-					msg.PrefabIds[i] = itr.Current.PrefabId;
+					msg.PrefabAddresses[i] = itr.Current.PrefabAddress;
 					msg.Positions[i] = t.position;
 					msg.Rotations[i] = t.rotation;
 					msg.Scales[i] = t.localScale;

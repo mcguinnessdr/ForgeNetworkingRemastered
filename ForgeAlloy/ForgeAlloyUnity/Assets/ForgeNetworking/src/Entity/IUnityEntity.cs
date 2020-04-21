@@ -8,7 +8,7 @@ namespace Forge.Networking.Unity
 	public interface IUnityEntity
 	{
 		int Id { get; set; }
-		int PrefabId { get; set; }
+		string PrefabAddress { get; set; }
 		GameObject OwnerGameObject { get; }
 		int SceneIndex { get; }
 		string SceneIdentifier { get; set; }

@@ -24,7 +24,7 @@ namespace Forge.Networking.Unity.Messages.Interpreters
 				{
 					// Don't load an entity that already exists (from DontDestroyOnLoad)
 					if (!engine.EntityRepository.Exists(m.Ids[i]))
-						EntitySpawner.SpawnEntityFromData(engine, m.Ids[i], m.PrefabIds[i], m.Positions[i], m.Rotations[i], m.Scales[i]);
+						EntitySpawner.SpawnEntityFromData(engine, m.Ids[i], m.PrefabAddresses[i], m.Positions[i], m.Rotations[i], m.Scales[i]);
 				}
 				else
 					SetupEntityAlreadyInScene(sceneEntities, m, i, engine);
@@ -39,7 +39,7 @@ namespace Forge.Networking.Unity.Messages.Interpreters
 				if (e.SceneIdentifier == msg.SceneIdentifiers[idx])
 				{
 					e.Id = msg.Ids[idx];
-					e.PrefabId = msg.PrefabIds[idx];
+					e.PrefabAddress = msg.PrefabAddresses[idx];
 					Transform t = e.OwnerGameObject.transform;
 					t.position = msg.Positions[idx];
 					t.rotation = msg.Rotations[idx];

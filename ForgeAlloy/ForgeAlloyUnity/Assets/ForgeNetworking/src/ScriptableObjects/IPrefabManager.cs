@@ -1,9 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Forge.Networking.Unity
 {
 	public interface IPrefabManager
 	{
-		Transform GetPrefabById(int id);
+		GameObject GetPrefabByAddress(string address);
 	}
 }

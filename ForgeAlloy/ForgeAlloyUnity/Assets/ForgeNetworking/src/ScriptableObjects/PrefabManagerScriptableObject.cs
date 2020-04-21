@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Forge.Networking.Unity
 {
@@ -8,15 +10,34 @@ namespace Forge.Networking.Unity
 	public class PrefabManagerScriptableObject : ScriptableObject, IPrefabManager
 	{
 		[SerializeField]
-		private Transform[] _prefabs = new Transform[0];
+		private AssetReference[] _prefabs = new AssetReference[0];
 
-		public Transform GetPrefabById(int id)
+		Dictionary<string, AssetReference> loadedAssetsByAddress = new Dictionary<string, AssetReference>();
+
+		public GameObject GetPrefabByAddress(string address)
 		{
-			if (id < 0 || id >= _prefabs.Length)
+			return (GameObject)loadedAssetsByAddress[address].Asset;
+		}
+
+		public void LoadAssetByAddress(string address)
+		{
+			LoadAssetReference(new AssetReference(address));
+		}
+
+		public void LoadAssetReference(AssetReference assetReference)
+		{
+			assetReference.LoadAssetAsync<GameObject>().Completed += (obj) =>
 			{
-				throw new ArgumentException($"The id for the prefab lookup was invalid, it should be 0-{_prefabs.Length - 1}", nameof(id));
+				loadedAssetsByAddress.Add(assetReference.AssetGUID, assetReference);
+			};
+		}
+
+		public void LoadAllAssetReferences()
+		{
+			for (int i = 0; i < _prefabs.Length; i++)
+			{
+				LoadAssetReference(_prefabs[i]);
 			}
-			return _prefabs[id];
 		}
 	}
 }

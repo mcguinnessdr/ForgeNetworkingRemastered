@@ -9,7 +9,7 @@ namespace Forge.Networking.Unity.Messages
 	public class SpawnEntityMessage : ForgeMessage
 	{
 		public int Id { get; set; }
-		public int PrefabId { get; set; }
+		public string PrefabAddress { get; set; }
 		public Vector3 Position { get; set; }
 		public Quaternion Rotation { get; set; }
 		public Vector3 Scale { get; set; }
@@ -19,7 +19,7 @@ namespace Forge.Networking.Unity.Messages
 		public override void Deserialize(BMSByte buffer)
 		{
 			Id = ForgeSerializer.Instance.Deserialize<int>(buffer);
-			PrefabId = ForgeSerializer.Instance.Deserialize<int>(buffer);
+			PrefabAddress = ForgeSerializer.Instance.Deserialize<string>(buffer);
 			Position = ForgeSerializer.Instance.Deserialize<Vector3>(buffer);
 			Rotation = ForgeSerializer.Instance.Deserialize<Quaternion>(buffer);
 			Scale = ForgeSerializer.Instance.Deserialize<Vector3>(buffer);
@@ -28,7 +28,7 @@ namespace Forge.Networking.Unity.Messages
 		public override void Serialize(BMSByte buffer)
 		{
 			ForgeSerializer.Instance.Serialize(Id, buffer);
-			ForgeSerializer.Instance.Serialize(PrefabId, buffer);
+			ForgeSerializer.Instance.Serialize(PrefabAddress, buffer);
 			ForgeSerializer.Instance.Serialize(Position, buffer);
 			ForgeSerializer.Instance.Serialize(Rotation, buffer);
 			ForgeSerializer.Instance.Serialize(Scale, buffer);

@@ -12,7 +12,7 @@ namespace Forge.Networking.Unity
 		[SerializeField] private string _sceneIdentifier = null;
 		[SerializeField, HideInInspector] private int _sceneIndex = 0;
 		public int Id { get; set; }
-		public int PrefabId { get; set; }
+		public string PrefabAddress { get; set; }
 		public GameObject OwnerGameObject => gameObject;
 		public int SceneIndex => _sceneIndex;
 		public string SceneIdentifier
